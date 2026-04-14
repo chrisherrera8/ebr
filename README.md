@@ -41,9 +41,29 @@ The app will be available at `http://localhost:5173`.
 ### Other scripts
 
 ```bash
-npm run build       # Production build (runs tsc then vite build)
-npm run preview     # Preview production build locally
-npm run typecheck   # Type-check without emitting files
+npm run build          # Production build (runs tsc then vite build)
+npm run preview        # Preview production build locally
+npm run typecheck      # Type-check without emitting files
+npm run test           # Run tests once
+npm run test:watch     # Run tests in watch mode
+npm run test:coverage  # Run tests and generate a coverage report
+```
+
+## Testing
+
+Tests use [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/).
+
+**Prerequisites:** Node 22+ (install via [nvm](https://github.com/nvm-sh/nvm): `nvm install --lts && nvm use --lts`)
+
+```bash
+# Run all tests once
+npm run test
+
+# Run in watch mode (re-runs on file changes)
+npm run test:watch
+
+# Run with coverage report (output in coverage/)
+npm run test:coverage
 ```
 
 ## Project Structure
