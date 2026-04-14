@@ -1,0 +1,64 @@
+import { cn } from '@/lib/utils';
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function Card({ className, children, ...props }: CardProps) {
+  return (
+    <div
+      className={cn(
+        'rounded-lg border border-neutral-200 bg-white shadow-sm',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function CardHeader({ className, children, ...props }: CardProps) {
+  return (
+    <div className={cn('flex flex-col gap-1 p-4', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function CardTitle({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h3
+      className={cn('text-sm font-semibold text-neutral-900', className)}
+      {...props}
+    >
+      {children}
+    </h3>
+  );
+}
+
+export function CardContent({ className, children, ...props }: CardProps) {
+  return (
+    <div className={cn('px-4 pb-4', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function CardFooter({ className, children, ...props }: CardProps) {
+  return (
+    <div
+      className={cn(
+        'flex items-center px-4 pb-4 pt-0',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
