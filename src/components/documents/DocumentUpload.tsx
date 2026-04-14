@@ -21,7 +21,7 @@ export function DocumentUpload({ onSuccess }: DocumentUploadProps) {
 
   const validateFile = (file: File): string | null => {
     if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
-      return 'Only PDF files are accepted.';
+      return 'Only PDF and text files are accepted.';
     }
     if (file.size > MAX_FILE_SIZE_BYTES) {
       return `File size must be less than ${MAX_FILE_SIZE_MB}MB.`;
@@ -97,7 +97,7 @@ export function DocumentUpload({ onSuccess }: DocumentUploadProps) {
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click();
         }}
-        aria-label="Upload PDF file"
+        aria-label="Upload file"
         className={cn(
           'flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-8 cursor-pointer transition-colors',
           dragOver
@@ -109,7 +109,7 @@ export function DocumentUpload({ onSuccess }: DocumentUploadProps) {
         <UploadCloud className="h-8 w-8 text-neutral-400" />
         <div className="text-center">
           <p className="text-sm font-medium text-neutral-700">
-            Drag & drop a PDF here
+            Drag & drop a file here
           </p>
           <p className="text-xs text-neutral-500 mt-0.5">
             or click to browse — max {MAX_FILE_SIZE_MB}MB
@@ -118,7 +118,7 @@ export function DocumentUpload({ onSuccess }: DocumentUploadProps) {
         <input
           ref={inputRef}
           type="file"
-          accept="application/pdf"
+          accept="application/pdf,text/plain"
           className="sr-only"
           onChange={handleInputChange}
           aria-hidden="true"

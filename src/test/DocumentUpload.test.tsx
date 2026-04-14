@@ -26,6 +26,10 @@ function makePdfFile(name = 'test.pdf', size = 1024) {
   return new File(['x'.repeat(size)], name, { type: 'application/pdf' });
 }
 
+function makeTextFile(name = 'test.txt', size = 1024) {
+  return new File(['x'.repeat(size)], name, { type: 'text/plain' });
+}
+
 describe('DocumentUpload', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -34,8 +38,8 @@ describe('DocumentUpload', () => {
   it('renders the upload area and upload button', () => {
     renderUpload();
 
-    expect(screen.getByRole('button', { name: /upload pdf file/i })).toBeInTheDocument();
-    expect(screen.getByText(/drag & drop a pdf here/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /upload file/i })).toBeInTheDocument();
+    expect(screen.getByText(/drag & drop a file here/i)).toBeInTheDocument();
     expect(screen.getByText(`max ${MAX_FILE_SIZE_MB}MB`, { exact: false })).toBeInTheDocument();
   });
 
@@ -56,15 +60,26 @@ describe('DocumentUpload', () => {
     expect(screen.getByRole('button', { name: /upload document/i })).not.toBeDisabled();
   });
 
-  it('shows a validation error when a non-PDF file is selected', () => {
+  it('shows the selected file name and size after a valid text file is chosen', async () => {
+    const user = userEvent.setup();
     renderUpload();
 
-    const nonPdf = new File(['data'], 'image.png', { type: 'image/png' });
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    await user.upload(input, makeTextFile('notes.txt', 2048));
+
+    expect(screen.getByText('notes.txt')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /upload document/i })).not.toBeDisabled();
+  });
+
+  it('shows a validation error when an unsupported file type is selected', () => {
+    renderUpload();
+
+    const unsupported = new File(['data'], 'image.png', { type: 'image/png' });
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     // Use fireEvent to bypass the accept attribute filter jsdom applies to userEvent.upload
-    fireEvent.change(input, { target: { files: [nonPdf] } });
+    fireEvent.change(input, { target: { files: [unsupported] } });
 
-    expect(screen.getByText(/only pdf files are accepted/i)).toBeInTheDocument();
+    expect(screen.getByText(/only pdf and text files are accepted/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /upload document/i })).toBeDisabled();
   });
 
