@@ -1,9 +1,8 @@
 import { apiFetch } from './client';
-import type { Document, DocumentsResponse, DeleteResponse, UploadResponse } from '@/types';
+import type { Document, DeleteResponse, UploadResponse } from '@/types';
 
 export async function fetchDocuments(): Promise<Document[]> {
-  const response = await apiFetch<DocumentsResponse>('/documents');
-  return response.documents;
+  return apiFetch<Document[]>('/documents');
 }
 
 export async function uploadDocument(file: File): Promise<UploadResponse> {
