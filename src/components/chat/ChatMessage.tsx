@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 import { CitationBadge } from './CitationBadge';
 import type { ChatMessage as ChatMessageType } from '@/types';
@@ -24,7 +25,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
             : 'bg-white border border-neutral-200 text-neutral-900 rounded-bl-sm shadow-sm',
         )}
       >
-        <p className="whitespace-pre-wrap break-words">{message.content}</p>
+        {isUser ? (
+          <p className="whitespace-pre-wrap break-words">{message.content}</p>
+        ) : (
+          <div className="prose prose-sm prose-neutral max-w-none break-words">
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </div>
+        )}
       </div>
 
       {message.citations && message.citations.length > 0 && (

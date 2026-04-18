@@ -14,11 +14,13 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-query": "^5.17.15",
     "lucide-react": "^0.309.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^6.21.2",
     "zod": "^3.22.4"
   },
