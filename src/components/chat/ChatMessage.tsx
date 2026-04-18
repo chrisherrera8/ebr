@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { cn } from '@/lib/utils';
 import { CitationBadge } from './CitationBadge';
 import type { ChatMessage as ChatMessageType } from '@/types';
@@ -29,7 +30,30 @@ export function ChatMessage({ message }: ChatMessageProps) {
           <p className="whitespace-pre-wrap break-words">{message.content}</p>
         ) : (
           <div className="prose prose-sm prose-neutral max-w-none break-words">
-            <ReactMarkdown>{message.content}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ children }) => (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full border-collapse text-left">
+                      {children}
+                    </table>
+                  </div>
+                ),
+                th: ({ children }) => (
+                  <th className="border border-neutral-200 bg-neutral-50 px-3 py-2 font-semibold whitespace-nowrap">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="border border-neutral-200 px-3 py-2 align-top">
+                    {children}
+                  </td>
+                ),
+              }}
+            >
+              {message.content}
+            </ReactMarkdown>
           </div>
         )}
       </div>

@@ -76,3 +76,41 @@ describe('ChatMessage — markdown rendering', () => {
     expect(screen.getByText('Hello world')).toBeInTheDocument();
   });
 });
+
+describe('ChatMessage — table rendering', () => {
+  const TABLE_MD = `| Strategy | Recommended? |
+|---|---|
+| Static password | ❌ Not for production |
+| X.509 Certificates | ✅ Preferred |`;
+
+  it('renders a table element', () => {
+    render(<ChatMessage message={makeMessage({ content: TABLE_MD })} />);
+    expect(document.querySelector('table')).toBeInTheDocument();
+  });
+
+  it('renders correct number of header cells', () => {
+    render(<ChatMessage message={makeMessage({ content: TABLE_MD })} />);
+    const headers = document.querySelectorAll('th');
+    expect(headers).toHaveLength(2);
+    expect(headers[0]).toHaveTextContent('Strategy');
+    expect(headers[1]).toHaveTextContent('Recommended?');
+  });
+
+  it('renders correct number of data rows', () => {
+    render(<ChatMessage message={makeMessage({ content: TABLE_MD })} />);
+    const rows = document.querySelectorAll('tbody tr');
+    expect(rows).toHaveLength(2);
+  });
+
+  it('renders cell content correctly', () => {
+    render(<ChatMessage message={makeMessage({ content: TABLE_MD })} />);
+    expect(screen.getByText('Static password')).toBeInTheDocument();
+    expect(screen.getByText('✅ Preferred')).toBeInTheDocument();
+  });
+
+  it('wraps the table in a horizontally scrollable container', () => {
+    render(<ChatMessage message={makeMessage({ content: TABLE_MD })} />);
+    const table = document.querySelector('table')!;
+    expect(table.parentElement).toHaveClass('overflow-x-auto');
+  });
+});
