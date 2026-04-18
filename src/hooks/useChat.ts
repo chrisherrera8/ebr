@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useStreamResponse } from './useStreamResponse';
+import { useToast } from '@/components/ui/Toast';
 import { generateId } from '@/lib/utils';
 import type { ChatMessage } from '@/types';
 
@@ -14,9 +15,16 @@ interface UseChatReturn {
 
 export function useChat(): UseChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const { streamedContent, citations, isStreaming, sendMessage: streamSend, abort, reset } =
+  const { streamedContent, citations, isStreaming, error, sendMessage: streamSend, abort, reset } =
     useStreamResponse();
+  const { toast } = useToast();
   const [prevIsStreaming, setPrevIsStreaming] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      toast({ variant: 'error', title: 'Something went wrong', description: error, duration: 10000 });
+    }
+  }, [error, toast]);
 
   // Detect transition from streaming to done and commit the assistant message
   if (prevIsStreaming && !isStreaming && streamedContent) {

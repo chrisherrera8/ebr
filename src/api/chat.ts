@@ -45,10 +45,14 @@ export async function streamChat(
           if (jsonStr === '[DONE]') return;
 
           try {
-            const chunk = JSON.parse(jsonStr) as SSEChunk;
-            onChunk(chunk.content, chunk.citations);
-          } catch {
-            // Skip malformed JSON chunks
+            const parsed = JSON.parse(jsonStr) as SSEChunk & { error?: string };
+            if (parsed.error) {
+              throw new Error(parsed.error);
+            }
+            onChunk(parsed.content, parsed.citations);
+          } catch (err) { // handles errors during streaming.
+            if (err instanceof SyntaxError) continue; // Skip malformed JSON chunks
+            throw err;
           }
         }
       }

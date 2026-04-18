@@ -14,7 +14,7 @@ import { TOAST_DURATION_MS } from '@/lib/constants';
 import type { ToastItem, ToastVariant } from '@/types';
 
 interface ToastContextValue {
-  toast: (opts: { variant: ToastVariant; title: string; description?: string }) => void;
+  toast: (opts: { variant: ToastVariant; title: string; description?: string; duration?: number }) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -54,7 +54,8 @@ function ToastItem({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    timerRef.current = setTimeout(() => onDismiss(item.id), TOAST_DURATION_MS);
+    const duration = item.duration ?? TOAST_DURATION_MS;
+    timerRef.current = setTimeout(() => onDismiss(item.id), duration);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
@@ -100,15 +101,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       variant,
       title,
       description,
+      duration,
     }: {
       variant: ToastVariant;
       title: string;
       description?: string;
+      duration?: number;
     }) => {
       const id = generateId();
-      const item: ToastItem = description !== undefined
-        ? { id, variant, title, description }
-        : { id, variant, title };
+      const item: ToastItem = { id, variant, title, ...(description !== undefined ? { description } : {}), ...(duration !== undefined ? { duration } : {}) };
       setToasts((prev) => [...prev, item]);
     },
     [],
@@ -119,7 +120,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       {createPortal(
         <div
-          className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"
+          className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"
           aria-label="Notifications"
         >
           {toasts.map((item) => (

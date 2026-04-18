@@ -58,4 +58,5 @@ export interface ToastItem {
   variant: ToastVariant;
   title: string;
   description?: string;
+  duration?: number;
 }

@@ -36,7 +36,7 @@ export function MainLayout({ sidebar, children }: MainLayoutProps) {
           )}
         </Button>
         <span className="ml-3 text-sm font-semibold text-neutral-900">
-          RAG App
+          PDF Chat
         </span>
 
         <nav className="ml-auto flex items-center gap-1">
@@ -64,7 +64,7 @@ export function MainLayout({ sidebar, children }: MainLayoutProps) {
           {/* Logo / nav */}
           <div className="flex h-12 items-center border-b border-neutral-200 px-4">
             <span className="text-sm font-semibold text-neutral-900">
-              RAG App
+              PDF Chat
             </span>
             <nav className="ml-auto flex items-center gap-1">
               {navItems.map(({ href, label, icon: Icon }) => (
