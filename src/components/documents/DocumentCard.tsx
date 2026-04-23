@@ -83,7 +83,7 @@ export function DocumentCard({
               <div className="mt-2 flex flex-wrap items-center gap-3 pl-6">
                 <span className="flex items-center gap-1 text-xs text-neutral-500">
                   <BookOpen className="h-3 w-3" />
-                  {document.page_count} page{document.page_count !== 1 ? 's' : ''}
+                  {document.num_pages} page{document.num_pages !== 1 ? 's' : ''}
                 </span>
                 <span className="flex items-center gap-1 text-xs text-neutral-500">
                   <Layers className="h-3 w-3" />

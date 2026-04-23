@@ -1,7 +1,7 @@
 export interface Document {
   id: number;
   filename: string;
-  page_count: number;
+  num_pages: number;
   chunk_count: number;
   created_at: string;
 }
@@ -27,7 +27,7 @@ export interface ChatRequest {
 export interface UploadResponse {
   id: number;
   filename: string;
-  page_count: number;
+  num_pages: number;
   chunk_count: number;
   created_at: string;
 }

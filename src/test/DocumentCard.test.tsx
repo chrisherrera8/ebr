@@ -17,7 +17,7 @@ vi.mock('@/hooks/useDocuments', () => ({
 const sampleDoc: Document = {
   id: 1,
   filename: 'report.pdf',
-  page_count: 10,
+  num_pages: 10,
   chunk_count: 42,
   created_at: '2024-01-15T12:00:00Z',
 };
