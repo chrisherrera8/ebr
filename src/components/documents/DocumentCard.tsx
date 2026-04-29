@@ -87,7 +87,7 @@ export function DocumentCard({
                 </span>
                 <span className="flex items-center gap-1 text-xs text-neutral-500">
                   <Layers className="h-3 w-3" />
-                  {document.chunk_count} chunk{document.chunk_count !== 1 ? 's' : ''}
+                  {document.num_chunks} chunk{document.num_chunks !== 1 ? 's' : ''}
                 </span>
               </div>
 

@@ -2,7 +2,7 @@ export interface Document {
   id: number;
   filename: string;
   num_pages: number;
-  chunk_count: number;
+  num_chunks: number;
   created_at: string;
 }
 
@@ -28,7 +28,7 @@ export interface UploadResponse {
   id: number;
   filename: string;
   num_pages: number;
-  chunk_count: number;
+  num_chunks: number;
   created_at: string;
 }
 

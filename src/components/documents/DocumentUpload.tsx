@@ -70,7 +70,7 @@ export function DocumentUpload({ onSuccess }: DocumentUploadProps) {
         toast({
           variant: 'success',
           title: 'Document uploaded',
-          description: `${data.filename} — ${data.num_pages} pages, ${data.chunk_count} chunks`,
+          description: `${data.filename} — ${data.num_pages} pages, ${data.num_chunks} chunks`,
         });
         setSelectedFile(null);
         onSuccess?.();
