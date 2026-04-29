@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Upload } from 'lucide-react';
+import { Upload, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Dialog } from '@/components/ui/Dialog';
 import { DocumentList } from '@/components/documents/DocumentList';
 import { DocumentUpload } from '@/components/documents/DocumentUpload';
 import { useDocuments } from '@/hooks/useDocuments';
+import { useAuth } from '@/lib/auth';
+import { useToast } from '@/components/ui/Toast';
 
 interface SidebarProps {
   selectedDocumentIds: number[];
@@ -15,6 +18,9 @@ interface SidebarProps {
 export function Sidebar({ selectedDocumentIds, onSelectionChange }: SidebarProps) {
   const [uploadOpen, setUploadOpen] = useState(false);
   const { data: documents } = useDocuments();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const count = documents?.length ?? 0;
 
   return (
@@ -60,6 +66,26 @@ export function Sidebar({ selectedDocumentIds, onSelectionChange }: SidebarProps
           selectedIds={selectedDocumentIds}
           onSelectionChange={onSelectionChange}
         />
+      </div>
+
+      <div className="border-t border-neutral-100 px-4 py-3">
+        <button
+          onClick={() =>
+            signOut()
+              .then(() => navigate('/sign-in'))
+              .catch((err) => {
+                console.error('Sign out failed:', err);
+                toast({
+                  variant: 'error',
+                  title: 'We could not log you out, try later',
+                });
+              })
+          }
+          className="flex items-center gap-2 text-xs text-neutral-500 hover:text-neutral-900 transition-colors"
+        >
+          <LogOut className="h-3.5 w-3.5" />
+          Sign out
+        </button>
       </div>
 
       <Dialog

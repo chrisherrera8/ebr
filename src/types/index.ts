@@ -1,3 +1,11 @@
+export interface AppUser {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  avatarUrl: string | null;
+}
+
 export interface Document {
   id: number;
   filename: string;
